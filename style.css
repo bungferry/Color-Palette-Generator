@@ -1,124 +1,265 @@
-html {
-	height: 100%;
+/* Fonts */
+
+@font-face {
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 100;
+	src: url("fonts/Inter-Thin.woff2") format("woff2"),
+	url("fonts/Inter-Thin.woff") format("woff");
 }
+
+@font-face {
+	font-family: 'Inter';
+	font-style: italic;
+	font-weight: 100;
+	src: url("fonts/Inter-ThinItalic.woff2") format("woff2"),
+	url("fonts/Inter-ThinItalic.woff") format("woff");
+}
+
+@font-face {
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 200;
+	src: url("fonts/Inter-ExtraLight.woff2") format("woff2"),
+	url("fonts/Inter-ExtraLight.woff") format("woff");
+}
+
+@font-face {
+	font-family: 'Inter';
+	font-style: italic;
+	font-weight: 200;
+	src: url("fonts/Inter-ExtraLightItalic.woff2") format("woff2"),
+	url("fonts/Inter-ExtraLightItalic.woff") format("woff");
+}
+
+@font-face {
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 300;
+	src: url("fonts/Inter-Light.woff2") format("woff2"),
+	url("fonts/Inter-Light.woff") format("woff");
+}
+
+@font-face {
+	font-family: 'Inter';
+	font-style: italic;
+	font-weight: 300;
+	src: url("fonts/Inter-LightItalic.woff2") format("woff2"),
+	url("fonts/Inter-LightItalic.woff") format("woff");
+}
+
+@font-face {
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 400;
+	src: url("fonts/Inter-Regular.woff2") format("woff2"),
+	url("fonts/Inter-Regular.woff") format("woff");
+}
+
+@font-face {
+	font-family: 'Inter';
+	font-style: italic;
+	font-weight: 400;
+	src: url("fonts/Inter-Italic.woff2") format("woff2"),
+	url("fonts/Inter-Italic.woff") format("woff");
+}
+
+@font-face {
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 500;
+	src: url("fonts/Inter-Medium.woff2") format("woff2"),
+	url("fonts/Inter-Medium.woff") format("woff");
+}
+
+@font-face {
+	font-family: 'Inter';
+	font-style: italic;
+	font-weight: 500;
+	src: url("fonts/Inter-MediumItalic.woff2") format("woff2"),
+	url("fonts/Inter-MediumItalic.woff") format("woff");
+}
+
+@font-face {
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 600;
+	src: url("fonts/Inter-SemiBold.woff2") format("woff2"),
+	url("fonts/Inter-SemiBold.woff") format("woff");
+}
+
+@font-face {
+	font-family: 'Inter';
+	font-style: italic;
+	font-weight: 600;
+	src: url("fonts/Inter-SemiBoldItalic.woff2") format("woff2"),
+	url("fonts/Inter-SemiBoldItalic.woff") format("woff");
+}
+
+@font-face {
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 700;
+	src: url("fonts/Inter-Bold.woff2") format("woff2"),
+	url("fonts/Inter-Bold.woff") format("woff");
+}
+
+@font-face {
+	font-family: 'Inter';
+	font-style: italic;
+	font-weight: 700;
+	src: url("fonts/Inter-BoldItalic.woff2") format("woff2"),
+	url("fonts/Inter-BoldItalic.woff") format("woff");
+}
+
+@font-face {
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 800;
+	src: url("fonts/Inter-ExtraBold.woff2") format("woff2"),
+	url("fonts/Inter-ExtraBold.woff") format("woff");
+}
+
+@font-face {
+	font-family: 'Inter';
+	font-style: italic;
+	font-weight: 800;
+	src: url("fonts/Inter-ExtraBoldItalic.woff2") format("woff2"),
+	url("fonts/Inter-ExtraBoldItalic.woff") format("woff");
+}
+
+@font-face {
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 900;
+	src: url("fonts/Inter-Black.woff2") format("woff2"),
+	url("fonts/Inter-Black.woff") format("woff");
+}
+
+@font-face {
+	font-family: 'Inter';
+	font-style: italic;
+	font-weight: 900;
+	src: url("fonts/Inter-BlackItalic.woff2") format("woff2"),
+	url("fonts/Inter-BlackItalic.woff") format("woff");
+}
+/* Globals */
 body {
-	background-color: #263238;
-	width: 100%;
-	height: 100%;
-	margin: 0;
-	font-family: Arial;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	min-width: 600px;
+	color: #000;
+	background-color: #fff;
+	transition: 1s background-color ease;
 }
-
-#styleTransfer {
-	box-sizing: border-box;
-	width: 100%;
-	height: 100%;
-	max-height: 500px;
+/* Nav */
+.navigation-container {
+	background-color: #000;
+	color: #fff;
 	padding: 20px;
-	display: grid;
-	grid-template-columns: 1fr auto 1fr auto 1fr;
-	gap: 30px;
-	align-items: center;
+		transition: 1s box-shadow ease;
+	box-shadow: 0px 10px 25px #bfbfbf;
 }
-
-h1 {
-	color: #eee;
-	font-size: 100px;
+.link-top {
+	color: #fff;
+	padding-top: 20px;
+	margin-right: 5px;
 }
-
-img,
-canvas {
-	width: 100%;
-	height: 100%;
+.links-top {
 	position: absolute;
-	border-radius: 10px;
+	top: 0;
+	right: 0;
+	padding-top: 20px;
 }
-
-.wrapper {
-	width: 100%;
-	height: 100%;
-	border-radius: 10px;
-	position: relative;
-}
-
-.wrapper > svg {
-	position: absolute;
-	top: 30%;
-	left: 30%;
-	right: 30%;
-	bottom: 30%;
-	width: 40%;
-	height: 40%;
-	opacity: 0;
-	transition: 0.3s ease;
-}
-
-body.loading .wrapper > svg {
-	opacity: 1;
-}
-
-.wrapper .material-icons {
-	position: absolute;
-	width: 55px;
-	height: 55px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	color: #424242;
-	font-size: 40px;
-	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-	background: #eee;
-	border-radius: 10px;
+/* Change Background Color */
+.change-color {
+	width: 30px;
+	height: 30px;
+	border: 1px solid #eee;
+	border-radius: 100%;
+	display: inline-block;
+	margin-top: 15px;
+	margin-right: 5px;
 	cursor: pointer;
-	overflow: hidden;
 }
-
-#stylePicker {
-	height: 100%;
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
+.change-color-light {
+	background-color: #eee;
 }
-
-#stylePicker button {
-	font-size: 20px;
-	padding: 15px;
-	cursor: pointer;
-	border: solid #eee 3px;
-	border-radius: 10px;
-	color: #eee;
-	background-color: transparent;
+.change-color-dark {
+	background-color: #16161a;
+}
+.change-color-blue {
+	background-color: #0000ff;
+}
+/* end Fonts */
+.color-title {
+	font-size: 2.5rem;
+	font-weight: 800;
+	font-family: 'Inter', sans-serif;
+}
+ion-icon {
+  line-height: rem;
+}
+.color-paragraph {
+	font-size: 1rem;
+	font-weight: 100;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+}
+/* Generator */
+.generator-section {
+}
+.generated-section {
+	padding-top: 50px;
+}
+.generated-section p {
+	padding-bottom: 20px;
+}
+.color-controls {
 	margin-top: 20px;
-	transition: opacity 0.2s ease;
+}
+.color-input {
+	font-weight: 600;
+	text-transform: uppercase;
+	border: none;
+	border-bottom: 2px solid #000;
+	padding: 10px;
+	font-size: 1rem;
+	background-color: transparent;
+}
+.color-submit {
+	padding: 10px 20px;
+	border-radius: 30px;
+	border: none;
+	background-color: #000;
+	color: #fff;
+	font-size: 1rem;
+	font-weight: bolder;
+	cursor: pointer;
+}
+.is-fullheight {
+	display: block !important;
+}
+.colorBoxColumns {
+	text-align: center;
 }
 
-#stylePicker button:disabled {
-	opacity: 0.4;
+.colorBox {
+	height: 150px;
+	display: inline-block;
+	transition: 1s background-color ease;
 }
-
-#input {
-	display: none;
+.bold-p {
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	opacity: 0.5;
+	
 }
-
-svg rect {
-	fill: #ff6700;
-}
-
-@media (max-width: 900px) {
-	#stylePicker button {
-		padding: 10px;
-		font-size: 15px;
+@media (max-width: 1000px) {
+	.color-submit {
 	}
-
-	.wrapper .material-icons {
-		font-size: 30px;
-		width: 40px;
-		height: 40px;
+	.colorBoxColumns .column {
+		width: 100%;
+	}
+	.links-top {
+		position: relative;
+		margin: 0 auto;
 	}
 }
