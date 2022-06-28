@@ -1,196 +1,195 @@
-class Transferer {
-	constructor() {
-		this.contentImgWrapper = document.getElementById("contentImg");
-		this.contentImg = document.querySelector("img");
-
-		this.styleImgWrapper = document.getElementById("styleImg");
-		this.styleImg = this.styleImgWrapper.querySelector("img");
-
-		this.styledCanvasWrapper = document.getElementById("styledCanvas");
-		this.styledCanvas = this.styledCanvasWrapper.querySelector("canvas");
-
-		this.generateArtButton = document.getElementById("generateArtButton");
-
-		this.uploadButton = document.getElementById("upload");
-		this.fileInput = document.getElementById("input");
-
-		this.downloadButton = document.getElementById("download");
-
-		this.neuralNet = new NeuralNet();
-		this.init();
-	}
-
-	async init() {
-		this.setLoading(true);
-		this.generateArtButton.addEventListener("click", this.updateStyle.bind(this));
-		this.downloadButton.addEventListener("click", this.download.bind(this));
-		this.uploadButton.addEventListener("click", () => this.fileInput.click());
-		this.fileInput.addEventListener("change", this.upload.bind(this));
-		window.addEventListener("resize", this.resize.bind(this));
-
-		await new Promise((res) => {
-			this.contentImg.onload = res;
-			if (this.contentImg.complete && this.contentImg.naturalHeight !== 0) res();
-		});
-		this.resize();
-
-		await this.neuralNet.init();
-		this.applyStyle();
-	}
-
-	async updateStyle() {
-		this.setLoading(true);
-		await new Promise((res) => {
-			setTimeout(res, 1000);
-		});
-		this.styleImg.src =
-			"https://source.unsplash.com/random/256x256/?art&" + Math.random();
-
-		await new Promise((res) => {
-			this.styleImg.onload = res;
-			if (this.styleImg.complete && this.styleImg.naturalHeight !== 0) res();
-		});
-		this.applyStyle();
-	}
-
-	async applyStyle() {
-		this.setLoading(true);
-		try {
-			const styledData = await this.neuralNet.applyStyle(
-				this.contentImg,
-				this.styleImg
-			);
-			tf.browser.toPixels(styledData, this.styledCanvas);
-			this.setLoading(false);
-		} catch (e) {
-			console.log(e);
-			this.generateArtButton.innerText = "Error: try to reload";
+		// Hide Generator
+		$(".generated-section").hide();
+		// Change background colour
+		function lightBackground() {
+			$("body").css("background-color", "#fff");
+			$("body").css("color", "#000");
+			$(".color-input").css("border-bottom", "2px solid #000");
+			$(".color-input").css("color", "#000");
+			$(".color-submit").css("background-color", "#000");
+			$(".color-submit").css("color", "#fff");
+			$(".navigation-container").css("box-shadow", "0px 10px 25px #bfbfbf");
 		}
-	}
-
-	async upload(e) {
-		if (e.target.files[0]) {
-			this.contentImg.src = window.URL.createObjectURL(e.target.files[0]);
-			await new Promise((res) => {
-				this.contentImg.onload = res;
-				if (this.contentImg.complete && this.contentImg.naturalHeight !== 0) res();
-			});
-			this.resize();
-			this.applyStyle();
+		function darkBackground() {
+			$("body").css("background-color", "#242424");
+			$("body").css("color", "#fff");
+			$(".color-input").css("border-bottom", "2px solid #fff");
+			$(".color-input").css("color", "#fff");
+			$(".color-submit").css("background-color", "#fff");
+			$(".color-submit").css("color", "#000");
+			$(".navigation-container").css("box-shadow", "0px 10px 25px #1f1f1f");
 		}
-	}
+		// Get color from input
+		function generateColor() {
+			$(".generated-section").fadeIn();
+			var colorForm = document.querySelector('.color-input').value;
+			var colorFormToChange = "#" + colorForm;
+			console.log(colorFormToChange);
+			// Shades
+			var darkestColor = tinycolor(colorFormToChange).darken(20).toString();
+			var darkerColor = tinycolor(colorFormToChange).darken(10).toString();
+			var lighterColor = tinycolor(colorFormToChange).lighten(10).toString();
+			var lightestColor = tinycolor(colorFormToChange).lighten(20).toString();
+			// Change Colors
+			
+			$(".chosenColor").css("background-color", colorFormToChange.toString());
+			$(".chosenColorDarkest").css("background-color", darkestColor);
+			$(".chosenColorDarker").css("background-color", darkerColor);
+			$(".chosenColorLighter").css("background-color", lighterColor);
+			$(".chosenColorLightest").css("background-color", lightestColor);
+			console.log("darker color is: " + darkerColor);
+			var chosenColorP = colorFormToChange.toString();
+			console.log("it should be " + chosenColorP);
+			$(".chosenColorP").html(chosenColorP);
+			$(".chosenColorDarkerP").html(darkerColor);
+			$(".chosenColorDarkestP").html(darkestColor);
+			$(".chosenColorLighterP").html(lighterColor);
+			$(".chosenColorLightestP").html(lightestColor);
+			// Accent Color 1
+			var accentColor = tinycolor(chosenColorP).spin(-90).toString();
+			$(".accentColor").css("background-color", accentColor);
+			$(".accentColorP").html(accentColor);
 
-	download() {
-		var a = document.createElement("a");
-		a.href = this.styledCanvas
-			.toDataURL("image/png")
-			.replace("image/png", "image/octet-stream");
-		a.download = "styled.png";
-		document.body.appendChild(a);
-		a.click();
-	}
+			var accentdarkestColor = tinycolor(accentColor).darken(20).toString();
+			var accentdarkerColor = tinycolor(accentColor).darken(10).toString();
+			var accentlighterColor = tinycolor(accentColor).lighten(10).toString();
+			var accentlightestColor = tinycolor(accentColor).lighten(20).toString();
 
-	setLoading(loading) {
-		if (loading) document.body.classList.add("loading");
-		else document.body.classList.remove("loading");
+			$(".accentColorDarkest").css("background-color", accentdarkestColor);
+			$(".accentColorDarker").css("background-color", accentdarkerColor);
+			$(".accentColorLighter").css("background-color", accentlighterColor);
+			$(".accentColorLightest").css("background-color", accentlightestColor);
 
-		this.generateArtButton.disabled = loading;
-	}
+			$(".accentColorDarkerP").html(accentdarkerColor);
+			$(".accentColorDarkestP").html(accentdarkestColor);
+			$(".accentColorLighterP").html(accentlighterColor);
+			$(".accentColorLightestP").html(accentlightestColor);
 
-	resize() {
-		const imgWidth = this.contentImg.naturalWidth;
-		const imgHeight = this.contentImg.naturalHeight;
+			// Accent Color 2
+			var accentTwoColor = tinycolor(accentColor).spin(-45).toString();
+			$(".accentTwoColor").css("background-color", accentTwoColor);
+			$(".accentTwoColorP").html(accentTwoColor);
 
-		for (const elm of [this.contentImg, this.styledCanvas]) {
-			const containerRect = elm.parentElement.getBoundingClientRect();
+			var accentTwodarkestColor = tinycolor(accentTwoColor).darken(20).toString();
+			var accentTwodarkerColor = tinycolor(accentTwoColor).darken(10).toString();
+			var accentTwolighterColor = tinycolor(accentTwoColor).lighten(10).toString();
+			var accentTwolightestColor = tinycolor(accentTwoColor).lighten(20).toString();
 
-			const { width, height } = this.contain(
-				{ width: imgWidth, height: imgHeight },
-				containerRect
-			);
-			elm.style.top = (containerRect.height - height) / 2 + "px";
-			elm.style.left = (containerRect.width - width) / 2 + "px";
-			elm.style.width = width + "px";
-			elm.style.height = height + "px";
-			const icon = elm.parentElement.querySelector(".material-icons");
-			if (icon) {
-				icon.style.bottom = (containerRect.height - height) / 2 + 10 + "px";
-				icon.style.right = (containerRect.width - width) / 2 + 10 + "px";
-			}
+			$(".accentTwoColorDarkest").css("background-color", accentTwodarkestColor);
+			$(".accentTwoColorDarker").css("background-color", accentTwodarkerColor);
+			$(".accentTwoColorLighter").css("background-color", accentTwolighterColor);
+			$(".accentTwoColorLightest").css("background-color", accentTwolightestColor);
+
+			$(".accentTwoColorDarkerP").html(accentTwodarkerColor);
+			$(".accentTwoColorDarkestP").html(accentTwodarkestColor);
+			$(".accentTwoColorLighterP").html(accentTwolighterColor);
+			$(".accentTwoColorLightestP").html(accentTwolightestColor);
+
+			// Accent Color 3
+			var accentThreeColor = tinycolor(accentTwoColor).complement().toHexString();
+			$(".accentThreeColor").css("background-color", accentThreeColor);
+			$(".accentThreeColorP").html(accentThreeColor);
+
+			var accentThreedarkestColor = tinycolor(accentThreeColor).darken(20).toString();
+			var accentThreedarkerColor = tinycolor(accentThreeColor).darken(10).toString();
+			var accentThreelighterColor = tinycolor(accentThreeColor).lighten(10).toString();
+			var accentThreelightestColor = tinycolor(accentThreeColor).lighten(20).toString();
+
+			$(".accentThreeColorDarkest").css("background-color", accentThreedarkestColor);
+			$(".accentThreeColorDarker").css("background-color", accentThreedarkerColor);
+			$(".accentThreeColorLighter").css("background-color", accentThreelighterColor);
+			$(".accentThreeColorLightest").css("background-color", accentThreelightestColor);
+
+			$(".accentThreeColorDarkerP").html(accentThreedarkerColor);
+			$(".accentThreeColorDarkestP").html(accentThreedarkestColor);
+			$(".accentThreeColorLighterP").html(accentThreelighterColor);
+			$(".accentThreeColorLightestP").html(accentThreelightestColor);
 		}
 
-		this.styleImgWrapper.style.width = "100%";
-		this.styleImgWrapper.style.height = "100%";
-		const { width, height } = this.styleImgWrapper.getBoundingClientRect();
-		if (width > height) this.styleImgWrapper.style.width = height + "px";
-		else {
-			this.styleImgWrapper.style.height = width + "px";
+		function generateRandomColor() {
+			$(".generated-section").fadeIn();
+			var colorForm = tinycolor.random();
+			var colorFormToChange = colorForm.toHexString();
+			console.log(colorFormToChange);
+			// Shades
+			var darkestColor = tinycolor(colorFormToChange).darken(20).toString();
+			var darkerColor = tinycolor(colorFormToChange).darken(10).toString();
+			var lighterColor = tinycolor(colorFormToChange).lighten(10).toString();
+			var lightestColor = tinycolor(colorFormToChange).lighten(20).toString();
+			// Change Colors
+
+			
+			
+			$(".chosenColor").css("background-color", darkestColor);
+			$(".chosenColorDarkest").css("background-color", darkestColor);
+			$(".chosenColorDarker").css("background-color", darkerColor);
+			$(".chosenColorLighter").css("background-color", lighterColor);
+			$(".chosenColorLightest").css("background-color", lightestColor);
+			console.log("darker color is: " + darkerColor);
+			var chosenColorP = colorFormToChange.toString();
+			console.log("it should be " + chosenColorP);
+			$(".chosenColorP").html(chosenColorP);
+			$(".chosenColorDarkerP").html(darkerColor);
+			$(".chosenColorDarkestP").html(darkestColor);
+			$(".chosenColorLighterP").html(lighterColor);
+			$(".chosenColorLightestP").html(lightestColor);
+			// Accent Color 1
+			var accentColor = tinycolor(chosenColorP).spin(-90).toString();
+			$(".accentColor").css("background-color", accentColor);
+			$(".accentColorP").html(accentColor);
+
+			var accentdarkestColor = tinycolor(accentColor).darken(20).toString();
+			var accentdarkerColor = tinycolor(accentColor).darken(10).toString();
+			var accentlighterColor = tinycolor(accentColor).lighten(10).toString();
+			var accentlightestColor = tinycolor(accentColor).lighten(20).toString();
+
+			$(".accentColorDarkest").css("background-color", accentdarkestColor);
+			$(".accentColorDarker").css("background-color", accentdarkerColor);
+			$(".accentColorLighter").css("background-color", accentlighterColor);
+			$(".accentColorLightest").css("background-color", accentlightestColor);
+
+			$(".accentColorDarkerP").html(accentdarkerColor);
+			$(".accentColorDarkestP").html(accentdarkestColor);
+			$(".accentColorLighterP").html(accentlighterColor);
+			$(".accentColorLightestP").html(accentlightestColor);
+
+			// Accent Color 2
+			var accentTwoColor = tinycolor(accentColor).spin(-45).toString();
+			$(".accentTwoColor").css("background-color", accentTwoColor);
+			$(".accentTwoColorP").html(accentTwoColor);
+
+			var accentTwodarkestColor = tinycolor(accentTwoColor).darken(20).toString();
+			var accentTwodarkerColor = tinycolor(accentTwoColor).darken(10).toString();
+			var accentTwolighterColor = tinycolor(accentTwoColor).lighten(10).toString();
+			var accentTwolightestColor = tinycolor(accentTwoColor).lighten(20).toString();
+
+			$(".accentTwoColorDarkest").css("background-color", accentTwodarkestColor);
+			$(".accentTwoColorDarker").css("background-color", accentTwodarkerColor);
+			$(".accentTwoColorLighter").css("background-color", accentTwolighterColor);
+			$(".accentTwoColorLightest").css("background-color", accentTwolightestColor);
+
+			$(".accentTwoColorDarkerP").html(accentTwodarkerColor);
+			$(".accentTwoColorDarkestP").html(accentTwodarkestColor);
+			$(".accentTwoColorLighterP").html(accentTwolighterColor);
+			$(".accentTwoColorLightestP").html(accentTwolightestColor);
+
+			// Accent Color 3
+			var accentThreeColor = tinycolor(accentTwoColor).complement().toHexString();
+			$(".accentThreeColor").css("background-color", accentThreeColor);
+			$(".accentThreeColorP").html(accentThreeColor);
+
+			var accentThreedarkestColor = tinycolor(accentThreeColor).darken(20).toString();
+			var accentThreedarkerColor = tinycolor(accentThreeColor).darken(10).toString();
+			var accentThreelighterColor = tinycolor(accentThreeColor).lighten(10).toString();
+			var accentThreelightestColor = tinycolor(accentThreeColor).lighten(20).toString();
+
+			$(".accentThreeColorDarkest").css("background-color", accentThreedarkestColor);
+			$(".accentThreeColorDarker").css("background-color", accentThreedarkerColor);
+			$(".accentThreeColorLighter").css("background-color", accentThreelighterColor);
+			$(".accentThreeColorLightest").css("background-color", accentThreelightestColor);
+
+			$(".accentThreeColorDarkerP").html(accentThreedarkerColor);
+			$(".accentThreeColorDarkestP").html(accentThreedarkestColor);
+			$(".accentThreeColorLighterP").html(accentThreelighterColor);
+			$(".accentThreeColorLightestP").html(accentThreelightestColor);
 		}
-		this.generateArtButton.style.width = this.styleImgWrapper.style.width;
-	}
-
-	contain(imgRect, containerRect) {
-		const imageRatio = imgRect.width / imgRect.height;
-
-		if (imageRatio >= containerRect.width / containerRect.height)
-			return {
-				width: containerRect.width,
-				height: containerRect.width / imageRatio
-			};
-		else
-			return {
-				width: containerRect.height * imageRatio,
-				height: containerRect.height
-			};
-	}
-}
-
-class NeuralNet {
-	constructor() {}
-
-	async init() {
-		this.transferModel = await tflite.loadTFLiteModel(
-			"https://tfhub.dev/google/lite-model/magenta/arbitrary-image-stylization-v1-256/fp16/transfer/1"
-		);
-		this.bottleneckModel = await tflite.loadTFLiteModel(
-			"https://tfhub.dev/google/lite-model/magenta/arbitrary-image-stylization-v1-256/fp16/prediction/1"
-		);
-	}
-
-	async applyStyle(contentImg, styleImg) {
-		const contentImgData = tf.browser
-			.fromPixels(contentImg, 3)
-			.resizeBilinear([384, 384])
-			.expandDims(0)
-			.div(255);
-		const styleImgData = tf.browser
-			.fromPixels(styleImg, 3)
-			.resizeBilinear([256, 256])
-			.expandDims(0)
-			.div(255);
-
-		const bottleneck = await this.createStyleBottleneck(styleImgData);
-		let styledImageData = this.transferModel.predict([
-			contentImgData,
-			bottleneck
-		]);
-
-		if (styledImageData.shape.length > 3)
-			styledImageData = tf.squeeze(styledImageData);
-
-		return styledImageData.resizeBilinear([contentImg.height, contentImg.width]);
-	}
-
-	async createStyleBottleneck(styleImg) {
-		const bottleneckTensor = this.bottleneckModel.predict(styleImg);
-		const bottleneckData = bottleneckTensor.dataSync();
-		const bottleneckClone = new Float32Array(100);
-		for (var i = 0; i < bottleneckClone.length; i++) {
-			bottleneckClone[i] = bottleneckData[i];
-		}
-		bottleneckTensor.dispose();
-		return tf.tensor(bottleneckClone, [1, 1, 1, 100]);
-	}
-}
-
-const transferer = new Transferer();
